@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Random Memories | NES Central Class of 1975</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      text-align: left;
+    }
+    header img {
+      width: 100%;
+      height: auto;
+      max-height: 250px;
+      object-fit: cover;
+      display: block;
+    }
+    nav {
+      background-color: #f2f2f2;
+      padding: 10px 20px;
+      border-top: 1px solid #ccc;
+      border-bottom: 1px solid #ccc;
+      font-weight: bold;
+    }
+    nav a {
+      text-decoration: none;
+      color: #333;
+      padding: 0 8px;
+    }
+    nav a:not(:last-child)::after {
+      content: "|";
+      margin-left: 8px;
+      color: #999;
+    }
+    h1 {
+      margin: 20px;
+      font-size: 2em;
+    }
+    main {
+      padding: 0 20px 40px 20px;
+      text-align: left;
+    }
+    .controls {
+      margin-top: 20px;
+      margin-bottom: 20px;
+      font-size: 1em;
+      text-align: left;
+    }
+    .controls button {
+      font-size: 1em;
+      padding: 4px 10px;
+      margin: 0 8px 8px 0;
+    }
+    .photo img {
+      max-width: 100%;
+      height: auto;
+      border: 3px solid #ccc;
+    }
+    @media (max-width: 768px) {
+      .controls {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <img src="banner.jpg" alt="Navotas Elementary School - Central">
+  </header>
+
+  <h1>Class of 1975 – Random Memories</h1>
+
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="reunion2012.html">Reunion 2012</a>
+    <a href="reunion2025.html">Reunion 2025</a>
+    <a href="random.html">Random Memories</a>
+  </nav>
+
+  <main>
+    <div class="controls" id="photoControls">
+      <button onclick="firstPhoto()">&#xab;</button>
+      <button onclick="prevPhoto()">&#8592;</button>
+      <button onclick="nextPhoto()">&#8594;</button>
+      <button onclick="lastPhoto()">&#xbb;</button>
+    </div>
+
+    <div class="photo">
+      <img id="galleryImage" src="random_001.jpg" alt="Random Memory">
+    </div>
+  </main>
+
+  <script>
+    const totalPhotos = 100;
+    let currentIndex = 1;
+
+    function updatePhoto() {
+      const img = document.getElementById('galleryImage');
+      const num = String(currentIndex).padStart(3, '0');
+      img.src = `random_${num}.jpg`;
+    }
+
+    function prevPhoto() {
+      if (currentIndex > 1) {
+        currentIndex--;
+        updatePhoto();
+      }
+    }
+
+    function nextPhoto() {
+      if (currentIndex < totalPhotos) {
+        currentIndex++;
+        updatePhoto();
+      }
+    }
+
+    function firstPhoto() {
+      currentIndex = 1;
+      updatePhoto();
+    }
+
+    function lastPhoto() {
+      currentIndex = totalPhotos;
+      updatePhoto();
+    }
+
+    let startX = 0;
+    let endX = 0;
+
+    document.getElementById('galleryImage').addEventListener('touchstart', function(e) {
+      startX = e.touches[0].clientX;
+    });
+
+    document.getElementById('galleryImage').addEventListener('touchend', function(e) {
+      endX = e.changedTouches[0].clientX;
+      handleSwipe();
+    });
+
+    function handleSwipe() {
+      const diff = startX - endX;
+      if (Math.abs(diff) > 50) {
+        if (diff > 0) {
+          nextPhoto();
+        } else {
+          prevPhoto();
+        }
+      }
+    }
+  </script>
+
+</body>
+</html>

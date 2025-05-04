@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Reunion 2025 | NES Central Class of 1975</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      text-align: left;
+    }
+    header img {
+      width: 100%;
+      height: auto;
+      max-height: 250px;
+      object-fit: cover;
+      display: block;
+    }
+    nav {
+      background-color: #f2f2f2;
+      padding: 10px 20px;
+      border-top: 1px solid #ccc;
+      border-bottom: 1px solid #ccc;
+      font-weight: bold;
+    }
+    nav a {
+      text-decoration: none;
+      color: #333;
+      padding: 0 8px;
+    }
+    nav a:not(:last-child)::after {
+      content: "|";
+      margin-left: 8px;
+      color: #999;
+    }
+    h1 {
+      margin: 20px;
+      font-size: 2em;
+    }
+    main {
+      padding: 0 20px 40px 20px;
+      text-align: left;
+    }
+    .groupnav {
+      font-weight: bold;
+      margin: 10px 0 20px 0;
+    }
+    .groupnav a {
+      text-decoration: none;
+      color: #006699;
+      padding: 0 6px;
+    }
+    .groupnav a:not(:last-child)::after {
+      content: "|";
+      margin-left: 6px;
+      color: #aaa;
+    }
+    .controls {
+      margin-top: 20px;
+      margin-bottom: 20px;
+      font-size: 1em;
+      text-align: left;
+    }
+    .controls button {
+      font-size: 1em;
+      padding: 4px 10px;
+      margin: 0 8px 8px 0;
+    }
+    .photo img {
+      max-width: 100%;
+      height: auto;
+      border: 3px solid #ccc;
+    }
+    .download {
+      margin-top: 20px;
+      font-style: italic;
+      color: #444;
+    }
+    @media (max-width: 768px) {
+      .controls {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <img src="banner.jpg" alt="Navotas Elementary School - Central">
+  </header>
+
+  <h1>Class of 1975 – Reunion 2025</h1>
+
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="reunion2012.html">Reunion 2012</a>
+    <a href="reunion2025.html">Reunion 2025</a>
+    <a href="random.html">Random Memories</a>
+  </nav>
+
+  <main>
+    <div class="groupnav">
+      <a href="#" onclick="jumpToCollage()">Collage</a>
+      <a href="#" onclick="jumpToGroup(1)">1–40</a>
+      <a href="#" onclick="jumpToGroup(41)">41–80</a>
+      <a href="#" onclick="jumpToGroup(81)">81–120</a>
+      <a href="#" onclick="jumpToGroup(121)">121–160</a>
+      <a href="#" onclick="jumpToGroup(161)">161–200</a>
+    </div>
+
+    <div class="controls" id="photoControls">
+      <button onclick="firstPhoto()">&#xab;</button>
+      <button onclick="prevPhoto()">&#8592;</button>
+      <span id="photoCounter">1 of 200</span>
+      <button onclick="nextPhoto()">&#8594;</button>
+      <button onclick="lastPhoto()">&#xbb;</button>
+    </div>
+
+    <div class="download" id="collageDownload" style="display:none">
+      You may download this collage photo and have it printed at a suitable large size (e.g., 18x24 inches) to create a framed keepsake for your wall or a thoughtful gift for a fellow classmate.
+    </div>
+
+    <div class="photo">
+      <img id="galleryImage" src="reunion_2025_001.jpg" alt="Reunion Photo">
+    </div>
+  </main>
+
+  <script>
+    const totalPhotos = 201;
+    let currentIndex = 1;
+
+    function updatePhoto() {
+      const img = document.getElementById('galleryImage');
+      const counter = document.getElementById('photoCounter');
+      const controls = document.getElementById('photoControls');
+      const download = document.getElementById('collageDownload');
+
+      if (currentIndex === 201) {
+        img.src = 'collage2025.jpg';
+        counter.textContent = 'Collage';
+        controls.style.display = 'none';
+        download.style.display = 'block';
+      } else {
+        const num = String(currentIndex).padStart(3, '0');
+        img.src = `reunion_2025_${num}.jpg`;
+        counter.textContent = `${currentIndex} of 200`;
+        controls.style.display = 'block';
+        download.style.display = 'none';
+      }
+    }
+
+    function prevPhoto() {
+      if (currentIndex > 1) {
+        currentIndex--;
+        updatePhoto();
+      }
+    }
+
+    function nextPhoto() {
+      if (currentIndex < totalPhotos - 1) {
+        currentIndex++;
+        updatePhoto();
+      }
+    }
+
+    function firstPhoto() {
+      currentIndex = 1;
+      updatePhoto();
+    }
+
+    function lastPhoto() {
+      currentIndex = 200;
+      updatePhoto();
+    }
+
+    function jumpToGroup(startIndex) {
+      currentIndex = startIndex;
+      updatePhoto();
+    }
+
+    function jumpToCollage() {
+      currentIndex = 201;
+      updatePhoto();
+    }
+
+    let startX = 0;
+    let endX = 0;
+
+    document.getElementById('galleryImage').addEventListener('touchstart', function(e) {
+      startX = e.touches[0].clientX;
+    });
+
+    document.getElementById('galleryImage').addEventListener('touchend', function(e) {
+      endX = e.changedTouches[0].clientX;
+      handleSwipe();
+    });
+
+    function handleSwipe() {
+      const diff = startX - endX;
+      if (Math.abs(diff) > 50) {
+        if (diff > 0) {
+          nextPhoto();
+        } else {
+          prevPhoto();
+        }
+      }
+    }
+  </script>
+
+</body>
+</html>
